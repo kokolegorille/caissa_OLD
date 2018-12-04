@@ -1,0 +1,59 @@
+Arguments: 
+  /Users/sqrt/.nvm/versions/node/v8.12.0/bin/node /Users/sqrt/.nvm/versions/node/v8.12.0/bin/yarn add chessboard.js
+
+PATH: 
+  /Users/sqrt/.nvm/versions/node/v8.12.0/bin:/Users/sqrt/.asdf/shims:/Users/sqrt/.asdf/bin:/Users/sqrt/.rvm/gems/ruby-2.4.1/bin:/Users/sqrt/.rvm/gems/ruby-2.4.1@global/bin:/Users/sqrt/.rvm/rubies/ruby-2.4.1/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/sqrt/.rvm/bin:/Users/sqrt/.rvm/bin
+
+Yarn version: 
+  1.10.1
+
+Node version: 
+  8.12.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/chessboard.js: Not found
+      at Request.params.callback [as _callback] (/Users/sqrt/.nvm/versions/node/v8.12.0/lib/node_modules/yarn/lib/cli.js:61073:18)
+      at Request.self.callback (/Users/sqrt/.nvm/versions/node/v8.12.0/lib/node_modules/yarn/lib/cli.js:120166:22)
+      at emitTwo (events.js:126:13)
+      at Request.emit (events.js:214:7)
+      at Request.<anonymous> (/Users/sqrt/.nvm/versions/node/v8.12.0/lib/node_modules/yarn/lib/cli.js:121138:10)
+      at emitOne (events.js:116:13)
+      at Request.emit (events.js:211:7)
+      at IncomingMessage.<anonymous> (/Users/sqrt/.nvm/versions/node/v8.12.0/lib/node_modules/yarn/lib/cli.js:121060:12)
+      at Object.onceWrapper (events.js:313:30)
+      at emitNone (events.js:111:20)
+
+npm manifest: 
+  {
+    "repository": {},
+    "license": "MIT",
+    "scripts": {
+      "deploy": "webpack --mode production",
+      "watch": "webpack --mode development --watch"
+    },
+    "dependencies": {
+      "phoenix": "file:../deps/phoenix",
+      "phoenix_html": "file:../deps/phoenix_html"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.0.0",
+      "@babel/preset-env": "^7.0.0",
+      "babel-loader": "^8.0.0",
+      "copy-webpack-plugin": "^4.5.0",
+      "css-loader": "^0.28.10",
+      "mini-css-extract-plugin": "^0.4.0",
+      "optimize-css-assets-webpack-plugin": "^4.0.0",
+      "uglifyjs-webpack-plugin": "^1.2.4",
+      "webpack": "4.4.0",
+      "webpack-cli": "^2.0.10"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

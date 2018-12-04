@@ -16,6 +16,9 @@ defmodule CaissaWeb.Router do
   scope "/", CaissaWeb do
     pipe_through :browser
 
+    resources("/categories", CategoryController, only: [:index, :show])
+    resources("/games", GameController, only: [:index, :show])
+
     get "/", PageController, :index
   end
 

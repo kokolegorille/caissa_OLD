@@ -1,0 +1,22 @@
+<h1><%= "#{@category.volume}#{@category.code}" %></h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Pgn</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    <%= for sub_category <- @sub_categories do %>
+        <tr>
+            <td><%= sub_category.code %></td>
+            <td><%= sub_category.description %></td>
+            <td><%= sub_category.pgn %></td>
+            <td><%= link "Games", to: Routes.game_path(@conn, :index, %{zobrist: sub_category.zobrist_hash}) %></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>

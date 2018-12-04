@@ -1,0 +1,40 @@
+<h1>Games</h1>
+
+<%= if length(@games) > 0 do %>
+    <table>
+        <thead>
+            <tr>
+                <th>White</th>
+                <th>Black</th>
+                <th>Year</th>
+                <th>Event</th>
+                <th>Site</th>
+                <th>Round</th>
+                <th>Result</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        <%= for game <- @games do %>
+            <tr>
+                <td>
+                    <%= game.white_player.last_name %>,
+                    <%= game.white_player.first_name %>
+                </td>
+                <td>
+                    <%= game.black_player.last_name %>,
+                    <%= game.black_player.first_name %>
+                </td>
+                <td><%= game.year %></td>
+                <td><%= game.event %></td>
+                <td><%= game.site %></td>
+                <td><%= game.round %></td>
+                <td><%= game.result %></td>
+                <td><%= link "View", to: Routes.game_path(@conn, :show, game.id) %></td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <p>The list is empty.</p>
+<% end %>

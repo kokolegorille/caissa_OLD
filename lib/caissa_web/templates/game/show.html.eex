@@ -1,0 +1,35 @@
+<h1>View game</h1>
+<div class="flex">
+    <div class="blue merida">
+        <div id="ground" data-fen="<%= maybe_fen(@positions, @move_index) %>" class="cg-board-wrap"></div>
+        <div class="controls">
+            <%= 
+            class = if @move_index <= 0, do: "isDisabled"
+            link "Previous", 
+            to: Routes.game_path(@conn, :show, @game.id, move_index: max(0, @move_index - 1)), 
+            class: class 
+            %>
+            <%= 
+            class = if @move_index >= length(@positions) - 1, do: "isDisabled"
+            link "Next", 
+            to: Routes.game_path(@conn, :show, @game.id, move_index: min(@move_index + 1, length(@positions) - 1)),
+            class: class 
+            %>
+        </div>
+    </div>
+
+    <div>
+        <%= if length(@moves) > 0 do %>
+            <ol>
+            <%= for [white_move, black_move] <- Enum.chunk_every(@moves, 2) do %>
+                <li>
+                    <%= link white_move.san, to: Routes.game_path(@conn, :show, @game.id, move_index: white_move.move_index + 1) %> - 
+                    <%= link black_move.san, to: Routes.game_path(@conn, :show, @game.id, move_index: black_move.move_index + 1) %>
+                </li>
+            <% end %>
+            </ol>
+        <% else %>
+            <p>The list is empty.</p>
+        <% end %>
+    </div>
+</div>

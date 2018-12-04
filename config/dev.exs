@@ -21,6 +21,13 @@ config :caissa, CaissaWeb.Endpoint,
     ]
   ]
 
+ config :chess_db, ChessDb.Repo,
+ database: "chess_db_dev",
+ username: "postgres",
+ password: "postgres",
+ hostname: "localhost",
+ pool_size: 30
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
