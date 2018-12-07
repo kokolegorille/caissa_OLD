@@ -43,10 +43,12 @@ defmodule Caissa.MixProject do
       {:ksuid, "~> 0.1.2"},
       {:chess_db, path: "../chess_db"},
       #
+      {:ecto, "~> 3.0", override: true},
+      #
       {:absinthe, "~> 1.4"},
       {:absinthe_plug, "~> 1.4"},
       {:absinthe_ecto, "~> 0.1.3"},
-      # {:absinthe_relay, "~> 1.4"},
+      {:absinthe_relay, "~> 1.4"},
     ]
   end
 end

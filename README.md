@@ -34,3 +34,52 @@ config :caissa, ecto_repos: [ChessDb.Repo]
 config :chess_db, :import, nbr_workers: 15
 
 in dev.exs, prod.secret.exs, add db config.
+
+# GraphQL Sample queries
+
+Without Relay...
+
+{
+  games(whitePlayer: "hou", zobristHash: "6549658867566488975") {
+    id
+    whitePlayer {
+      lastName
+      firstName
+    }
+    blackPlayer {
+      lastName
+      firstName
+    }
+    gameInfo
+    event
+    site
+    round
+    result
+    year
+    positions {
+      fen
+      zobristHash
+    }
+    insertedAt
+    updatedAt
+  }
+}
+
+With Relay...
+
+{
+  store {
+    categories(first: 10) {
+      pageInfo {
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          volume
+          code
+        }
+      }
+    }
+  }
+}
