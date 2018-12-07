@@ -2,12 +2,20 @@
 
 <%= if length(@categories) > 0 do %>
 <ul>
-    <%= for category <- @categories do %>
+    <%= for {volume, categories} <- Enum.group_by(@categories, & &1.volume) do %>
     <li>
-        <%= link "#{category.volume}#{category.code}", to: Routes.category_path(@conn, :show, category.id) %>
+        <%= volume %>
+        <%= if length(categories) > 0 do %>
+        <ul>
+            <%= for category <- categories do %>
+            <li><%= link "#{category.volume}#{category.code}", to: Routes.category_path(@conn, :show, category.id) %></li>
+            <% end %>
+        </ul>
+        <% end %>
     </li>
     <% end %>
 </ul>
+
 <% else %>
 <p>The list is empty.</p>
 <% end %>

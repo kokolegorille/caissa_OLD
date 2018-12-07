@@ -18,9 +18,22 @@ defmodule CaissaWeb.Router do
 
     resources("/categories", CategoryController, only: [:index, :show])
     resources("/games", GameController, only: [:index, :show])
+    resources("/players", PlayerController, only: [:index, :show])
+    resources("/files", FileController, only: [:new, :create])
 
     get "/", PageController, :index
   end
+
+  forward "/graphql",
+    Absinthe.Plug,
+    schema: CaissaWeb.Schema,
+    json_codec: Jason
+
+  # Note: downloaded from CDN!
+  forward "/graphiql",
+    Absinthe.Plug.GraphiQL,
+    schema: CaissaWeb.Schema,
+    json_codec: Jason
 
   # Other scopes may use custom stacks.
   # scope "/api", CaissaWeb do

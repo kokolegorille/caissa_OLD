@@ -1,0 +1,13 @@
+<h1>Players</h1>
+
+<%= if length(@players) > 0 do %>
+    <ul>
+    <%= for player <- @players do %>
+        <li>
+        <%= link "#{player.last_name}, #{player.first_name}", to: Routes.player_path(@conn, :show, player.id) %>
+        </li>
+    <% end %>
+    </ul>
+<% else %>
+    <p>The list is empty.</p>
+<% end %>

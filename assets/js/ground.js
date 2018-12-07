@@ -1,14 +1,11 @@
 import {Chessground} from "chessground";
 
-try {
-    let element = document.getElementById('ground');
+let element = document.getElementById('ground');
+if(element) {
     console.log(element.dataset.fen);
     let config = {
         fen: element.dataset.fen,
         orientation: 'white'
     }
-    let ground = Chessground(element, config);
-}
-catch(err) {
-    console.log(`Opps, there was an error ${err}`)
+    Chessground(element, config);
 }

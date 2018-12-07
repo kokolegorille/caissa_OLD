@@ -1,0 +1,3 @@
+<h1><%= "#{@player.last_name} #{@player.first_name}" %></h1>
+
+<%= render CaissaWeb.GameView, "list_of_games.html", games: @games, conn: @conn %>

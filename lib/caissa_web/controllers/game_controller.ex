@@ -15,8 +15,11 @@ defmodule CaissaWeb.GameController do
 
   def show(conn, %{"id" => id} = params) do
     game = Chess.get_game!(id)
+    |> Repo.preload([:white_player, :black_player])
+
     positions = Chess.list_game_positions(game)
-    moves = Chess.list_game_moves(game)
+    moves = Enum.map(positions, & &1.move)
+
     move_index = params
     |> Map.get("move_index", "0")
     |> String.to_integer
