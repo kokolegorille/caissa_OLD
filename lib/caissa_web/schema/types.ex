@@ -12,6 +12,8 @@ defmodule CaissaWeb.Schema.Types do
   # ==============================
 
   object :store do
+    # ECO
+
     connection field :categories, node_type: :category do
       arg :code, :string
       resolve &EcoResolver.list_categories/3
@@ -22,6 +24,18 @@ defmodule CaissaWeb.Schema.Types do
       arg :zobrist_hash, :string
       resolve &EcoResolver.list_sub_categories/3
     end
+
+    field :category, type: :category do
+      arg :id, non_null(:integer)
+      resolve &EcoResolver.find_category/2
+    end
+
+    field :sub_category, type: :sub_category do
+      arg :id, non_null(:integer)
+      resolve &EcoResolver.find_sub_category/2
+    end
+
+    # CHESS
 
     connection field :players, node_type: :player do
       arg :name, :string
@@ -47,6 +61,21 @@ defmodule CaissaWeb.Schema.Types do
       arg :move, :string
       arg :zobrist_hash, :string
       resolve &ChessResolver.list_positions/3
+    end
+
+    field :player, type: :player do
+      arg :id, non_null(:integer)
+      resolve &ChessResolver.find_player/2
+    end
+
+    field :game, type: :game do
+      arg :id, non_null(:integer)
+      resolve &ChessResolver.find_game/2
+    end
+
+    field :position, type: :position do
+      arg :id, non_null(:integer)
+      resolve &ChessResolver.find_position/2
     end
   end
 
@@ -77,6 +106,8 @@ defmodule CaissaWeb.Schema.Types do
     field :description, :string
     field :pgn, :string
     field :zobrist_hash, :bigint
+
+    # field :category, :category, resolve: assoc(:category)
 
     # Timestamps
     field :inserted_at, :date
@@ -146,6 +177,8 @@ defmodule CaissaWeb.Schema.Types do
     field :fen, :string
     field :zobrist_hash, :bigint
     field :move, :string
+
+    # field :game, :game, resolve: assoc(:game)
 
     # Timestamps
     field :inserted_at, :date
