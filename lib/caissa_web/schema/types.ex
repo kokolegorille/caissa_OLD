@@ -2,14 +2,14 @@ defmodule CaissaWeb.Schema.Types do
   use Absinthe.Schema.Notation
   use Absinthe.Ecto, repo: Repo
 
-  alias ChessDb.{Chess, Eco}
+  alias CaissaWeb.Resolvers.{ChessResolver, EcoResolver}
 
   # FIELDS
 
   object :categories do
     field :categories, list_of(:category) do
       arg :code, :string
-      resolve fn _, args, _ -> {:ok, Eco.list_categories(args)} end
+      resolve &EcoResolver.list_categories/3
     end
   end
 
@@ -17,14 +17,14 @@ defmodule CaissaWeb.Schema.Types do
     field :sub_categories, list_of(:sub_category) do
       arg :description, :string
       arg :zobrist_hash, :string
-      resolve fn _, args, _ -> {:ok, Eco.list_sub_categories(args)} end
+      resolve &EcoResolver.list_sub_categories/3
     end
   end
 
   object :players do
     field :players, list_of(:player) do
       arg :name, :string
-      resolve fn _, args, _ -> {:ok, Chess.list_players(args)} end
+      resolve &ChessResolver.list_players/3
     end
   end
 
@@ -40,7 +40,7 @@ defmodule CaissaWeb.Schema.Types do
       arg :black_player, :string
       arg :zobrist_hash, :string
 
-      resolve fn _, args, _ -> {:ok, Chess.list_games(args)} end
+      resolve &ChessResolver.list_games/3
     end
   end
 
@@ -49,7 +49,7 @@ defmodule CaissaWeb.Schema.Types do
       arg :fen, :string
       arg :move, :string
       arg :zobrist_hash, :string
-      resolve fn _, args, _ -> {:ok, Chess.list_positions(args)} end
+      resolve &ChessResolver.list_positions/3
     end
   end
 
@@ -63,7 +63,7 @@ defmodule CaissaWeb.Schema.Types do
     field :sub_categories, list_of(:sub_category) do
       arg :description, :string
       arg :zobrist_hash, :string
-      resolve fn _, args, %{source: category} -> {:ok, Eco.list_category_sub_categories(category, args)} end
+      resolve &EcoResolver.list_category_sub_categories/3
     end
   end
 
@@ -91,7 +91,7 @@ defmodule CaissaWeb.Schema.Types do
       arg :black_player, :string
       arg :zobrist_hash, :string
 
-      resolve fn _, args, %{source: player} -> {:ok, Chess.list_player_games(player, args)} end
+      resolve &ChessResolver.list_player_games/3
     end
   end
 
@@ -112,7 +112,8 @@ defmodule CaissaWeb.Schema.Types do
       arg :fen, :string
       arg :move, :string
       arg :zobrist_hash, :string
-      resolve fn _, args, %{source: game} -> {:ok, Chess.list_game_positions(game, args)} end
+
+      resolve &ChessResolver.list_game_positions/3
     end
   end
 
@@ -124,12 +125,7 @@ defmodule CaissaWeb.Schema.Types do
     field :move, :string
   end
 
-  # enum :result_type do
-  #   value :"1-0"
-  #   value :"0-1"
-  #   value :"1/2-1/2"
-  #   value :"1/2"
-  # end
+  # TYPES
 
   enum :sort_order do
     value :asc
@@ -139,6 +135,13 @@ defmodule CaissaWeb.Schema.Types do
     value :desc_nulls_last
     value :desc_nulls_first
   end
+
+  # enum :result_type do
+  #   value :"1-0"
+  #   value :"0-1"
+  #   value :"1/2-1/2"
+  #   value :"1/2"
+  # end
 
   # scalar :bigint do
   #   parse fn input ->
