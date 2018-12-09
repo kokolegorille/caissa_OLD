@@ -15,7 +15,7 @@
             <td><%= sub_category.code %></td>
             <td><%= sub_category.description %></td>
             <td><%= sub_category.pgn %></td>
-            <td><%= link "Games", to: Routes.game_path(@conn, :index, %{zobrist: sub_category.zobrist_hash}) %></td>
+            <td><%= link "Games", to: Routes.game_path(@conn, :index, %{zobrist_hash: sub_category.zobrist_hash}) %></td>
         </tr>
     <% end %>
     </tbody>

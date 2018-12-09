@@ -1,5 +1,6 @@
 defmodule CaissaWeb.UserSocket do
   use Phoenix.Socket
+  use Absinthe.Phoenix.Socket, schema: CaissaWeb.Schema
 
   ## Channels
   # channel "room:*", CaissaWeb.RoomChannel

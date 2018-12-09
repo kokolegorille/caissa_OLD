@@ -4,9 +4,7 @@ defmodule CaissaWeb.CategoryController do
   alias ChessDb.Eco
 
   def index(conn, _params) do
-
     categories = Eco.list_categories
-
     render(conn, "index.html", categories: categories)
   end
 

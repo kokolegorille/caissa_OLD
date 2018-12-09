@@ -83,3 +83,61 @@ With Relay...
     }
   }
 }
+
+With params...
+
+query Players($first: Int!) {
+  store {
+    players(first: $first) {
+      edges {
+        node {
+          id
+          lastName
+          firstName
+        }
+      }
+    }
+  }
+}
+
+query Players($first: Int!) {
+  store {
+    players(first: $first) {
+      edges {
+        node {
+          id
+          lastName
+          firstName
+          insertedAt
+          updatedAt
+          games(first: 2, filter: {whitePlayer: "hou"}) {
+            edges {
+              node {
+                whitePlayer {
+                  lastName
+                  firstName
+                }
+                blackPlayer {
+                  lastName
+                  firstName
+                }
+                event
+                round
+                site
+                year
+                result
+                positions(first: 1) {
+                  edges {
+                    node {
+                      fen
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

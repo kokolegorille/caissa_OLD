@@ -1,3 +1,11 @@
 <h1>Games</h1>
 
+<h3>Filter</h3>
+<dl class="dl-horizontal">
+<%= for {k, v} <- @filter do %>
+    <dt><%= k %></dt>
+    <dd><%= v %></dd>
+<% end %>
+</dl>
+
 <%= render "list_of_games.html", games: @games, conn: @conn %>

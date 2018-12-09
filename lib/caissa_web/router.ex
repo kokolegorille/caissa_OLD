@@ -24,16 +24,18 @@ defmodule CaissaWeb.Router do
     get "/", PageController, :index
   end
 
-  forward "/graphql",
+  forward "/api",
     Absinthe.Plug,
     schema: CaissaWeb.Schema,
-    json_codec: Jason
+    json_codec: Jason,
+    socket: CaissaWeb.UserSocket
 
   # Note: downloaded from CDN!
   forward "/graphiql",
     Absinthe.Plug.GraphiQL,
     schema: CaissaWeb.Schema,
-    json_codec: Jason
+    json_codec: Jason,
+    socket: CaissaWeb.UserSocket
 
   # Other scopes may use custom stacks.
   # scope "/api", CaissaWeb do

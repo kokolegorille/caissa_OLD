@@ -1,5 +1,6 @@
 defmodule CaissaWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :caissa
+  use Absinthe.Phoenix.Endpoint
 
   socket "/socket", CaissaWeb.UserSocket,
     websocket: true,

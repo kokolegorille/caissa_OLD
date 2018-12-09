@@ -1,14 +1,14 @@
 defmodule CaissaWeb.Schema.Types do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
-  use Absinthe.Ecto, repo: Repo
+  use Absinthe.Ecto, repo: ChessDb.Repo
 
   # Include date type
   import_types Absinthe.Type.Custom
 
   alias CaissaWeb.Resolvers.{ChessResolver, EcoResolver}
 
-  # FIELDS
+  # STORE
   # ==============================
 
   object :store do
@@ -38,28 +38,19 @@ defmodule CaissaWeb.Schema.Types do
     # CHESS
 
     connection field :players, node_type: :player do
+      arg :order, type: :sort_order, default_value: :asc
       arg :name, :string
       resolve &ChessResolver.list_players/3
     end
 
     connection field :games, node_type: :game do
       arg :order, type: :sort_order, default_value: :asc
-      arg :event, :string
-      arg :site, :string
-      arg :round, :string
-      arg :result, :string
-      arg :year, :integer
-      arg :white_player, :string
-      arg :black_player, :string
-      arg :zobrist_hash, :string
-
+      arg :filter, :game_filter
       resolve &ChessResolver.list_games/3
     end
 
     connection field :positions, node_type: :position do
-      arg :fen, :string
-      arg :move, :string
-      arg :zobrist_hash, :string
+      arg :filter, :position_filter
       resolve &ChessResolver.list_positions/3
     end
 
@@ -94,8 +85,8 @@ defmodule CaissaWeb.Schema.Types do
     end
 
     # Timestamps
-    field :inserted_at, :date
-    field :updated_at, :date
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
   end
 
   connection node_type: :category
@@ -107,11 +98,11 @@ defmodule CaissaWeb.Schema.Types do
     field :pgn, :string
     field :zobrist_hash, :bigint
 
-    # field :category, :category, resolve: assoc(:category)
+    field :category, :category, resolve: assoc(:category)
 
     # Timestamps
-    field :inserted_at, :date
-    field :updated_at, :date
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
   end
 
   connection node_type: :sub_category
@@ -123,21 +114,13 @@ defmodule CaissaWeb.Schema.Types do
 
     connection field :games, node_type: :game do
       arg :order, type: :sort_order, default_value: :asc
-      arg :event, :string
-      arg :site, :string
-      arg :round, :string
-      arg :result, :string
-      arg :year, :integer
-      arg :white_player, :string
-      arg :black_player, :string
-      arg :zobrist_hash, :string
-
+      arg :filter, :game_filter
       resolve &ChessResolver.list_player_games/3
     end
 
     # Timestamps
-    field :inserted_at, :date
-    field :updated_at, :date
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
   end
 
   connection node_type: :player
@@ -165,8 +148,8 @@ defmodule CaissaWeb.Schema.Types do
     end
 
     # Timestamps
-    field :inserted_at, :date
-    field :updated_at, :date
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
   end
 
   connection node_type: :game
@@ -178,14 +161,35 @@ defmodule CaissaWeb.Schema.Types do
     field :zobrist_hash, :bigint
     field :move, :string
 
-    # field :game, :game, resolve: assoc(:game)
+    field :game, :game, resolve: assoc(:game)
 
     # Timestamps
-    field :inserted_at, :date
-    field :updated_at, :date
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
   end
 
   connection node_type: :position
+
+  # INPUT OBJECT
+  # ==============================
+  input_object :game_filter do
+    field :event, :string
+    field :site, :string
+    field :round, :string
+    field :result, :string
+    field :year, :integer
+    field :white_player, :string
+    field :black_player, :string
+    # White or Black player
+    field :player, :string
+    field :zobrist_hash, :string
+  end
+
+  input_object :position_filter do
+    field :fen, :string
+    field :move, :string
+    field :zobrist_hash, :string
+  end
 
   # TYPES
   # ==============================

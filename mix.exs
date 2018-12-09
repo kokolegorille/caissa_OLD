@@ -49,6 +49,7 @@ defmodule Caissa.MixProject do
       {:absinthe_plug, "~> 1.4"},
       {:absinthe_ecto, "~> 0.1.3"},
       {:absinthe_relay, "~> 1.4"},
+      {:absinthe_phoenix, "~> 1.4"},
     ]
   end
 end

@@ -9,9 +9,8 @@ defmodule Caissa.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      CaissaWeb.Endpoint
-      # Starts a worker by calling: Caissa.Worker.start_link(arg)
-      # {Caissa.Worker, arg},
+      CaissaWeb.Endpoint,
+      absinthe_subscriptions(CaissaWeb.Endpoint),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -25,5 +24,13 @@ defmodule Caissa.Application do
   def config_change(changed, _new, removed) do
     CaissaWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  def absinthe_subscriptions(name) do
+    %{
+      type: :supervisor,
+      id: Absinthe.Subscription,
+      start: {Absinthe.Subscription, :start_link, [name]}
+    }
   end
 end

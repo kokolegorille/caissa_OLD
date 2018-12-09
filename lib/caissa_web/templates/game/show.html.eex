@@ -42,10 +42,10 @@
             to: Routes.game_path(@conn, :show, @game.id, move_index: min(@move_index + 1, length(@positions) - 1)),
             class: class 
             %>
-
+            <br />
             <%=
             zobrist_hash = ChessDb.Zobrist.fen_to_zobrist_hash(maybe_fen(@positions, @move_index)) 
-            link "Similar Games at move : #{@move_index}", to: Routes.game_path(@conn, :index, %{zobrist: zobrist_hash}) 
+            link "Similar Games at move : #{@move_index}", to: Routes.game_path(@conn, :index, %{zobrist_hash: zobrist_hash}) 
             %>
         </div>
     </div>
@@ -55,8 +55,8 @@
             <ol>
             <%= for {[white_move, black_move], index} <- Enum.with_index(Enum.chunk_every(@moves, 2)) do %>
                 <li>
-                    <%= link white_move, to: Routes.game_path(@conn, :show, @game.id, move_index: index + 1) %> - 
-                    <%= link black_move, to: Routes.game_path(@conn, :show, @game.id, move_index: index + 2) %>
+                    <%= link white_move, to: Routes.game_path(@conn, :show, @game.id, move_index: index * 2 + 1) %> - 
+                    <%= link black_move, to: Routes.game_path(@conn, :show, @game.id, move_index: index * 2 + 2) %>
                 </li>
             <% end %>
             </ol>
