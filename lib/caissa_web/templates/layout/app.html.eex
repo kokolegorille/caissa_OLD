@@ -14,6 +14,7 @@
           <ul>
             <li><%= link "Home", to: "/" %></li>
             <li><%= link "Categories", to: Routes.category_path(@conn, :index) %></li>
+            <li><%= link "SubCategories", to: Routes.sub_category_path(@conn, :index) %></li>
             <li><%= link "Games", to: Routes.game_path(@conn, :index) %></li>
             <li><%= link "Players", to: Routes.player_path(@conn, :index) %></li>
             <li><%= link "Upload PGN", to: Routes.file_path(@conn, :new)  %></li>

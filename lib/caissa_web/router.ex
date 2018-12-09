@@ -17,6 +17,7 @@ defmodule CaissaWeb.Router do
     pipe_through :browser
 
     resources("/categories", CategoryController, only: [:index, :show])
+    resources("/sub_categories", SubCategoryController, only: [:index])
     resources("/games", GameController, only: [:index, :show])
     resources("/players", PlayerController, only: [:index, :show])
     resources("/files", FileController, only: [:new, :create])
