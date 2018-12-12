@@ -1,69 +1,51 @@
-defmodule CaissaWeb.Schema.Types do
+defmodule CaissaWeb.Schema.ChessTypes do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
   use Absinthe.Ecto, repo: ChessDb.Repo
 
-  # Include date type
-  import_types Absinthe.Type.Custom
+  alias CaissaWeb.Resolvers.ChessResolver
 
-  alias CaissaWeb.Resolvers.{ChessResolver, EcoResolver}
-
-  # STORE
+  # QUERIES
   # ==============================
 
-  object :store do
-    # ECO
-
-    connection field :categories, node_type: :category do
-      arg :code, :string
-      resolve &EcoResolver.list_categories/3
-    end
-
-    connection field :sub_categories, node_type: :sub_category do
-      arg :description, :string
-      arg :zobrist_hash, :string
-      resolve &EcoResolver.list_sub_categories/3
-    end
-
-    field :category, type: :category do
-      arg :id, non_null(:integer)
-      resolve &EcoResolver.find_category/2
-    end
-
-    field :sub_category, type: :sub_category do
-      arg :id, non_null(:integer)
-      resolve &EcoResolver.find_sub_category/2
-    end
-
-    # CHESS
-
+  object :players_query do
     connection field :players, node_type: :player do
       arg :order, type: :sort_order, default_value: :asc
       arg :name, :string
       resolve &ChessResolver.list_players/3
     end
+  end
 
+  object :games_query do
     connection field :games, node_type: :game do
       arg :order, type: :sort_order, default_value: :asc
       arg :filter, :game_filter
       resolve &ChessResolver.list_games/3
     end
+  end
 
+  object :positions_query do
     connection field :positions, node_type: :position do
       arg :filter, :position_filter
       resolve &ChessResolver.list_positions/3
     end
+  end
 
+  object :player_query do
     field :player, type: :player do
       arg :id, non_null(:integer)
       resolve &ChessResolver.find_player/2
     end
+  end
 
+  object :game_query do
     field :game, type: :game do
       arg :id, non_null(:integer)
       resolve &ChessResolver.find_game/2
     end
+  end
 
+  object :position_query do
     field :position, type: :position do
       arg :id, non_null(:integer)
       resolve &ChessResolver.find_position/2
@@ -72,40 +54,6 @@ defmodule CaissaWeb.Schema.Types do
 
   # OBJECTS
   # ==============================
-
-  node object :category do
-    field :internal_id, :integer, do: resolve &resolve_internal_id/2
-    field :volume, :string
-    field :code, :string
-
-    connection field :sub_categories, node_type: :sub_category do
-      arg :description, :string
-      arg :zobrist_hash, :string
-      resolve &EcoResolver.list_category_sub_categories/3
-    end
-
-    # Timestamps
-    field :inserted_at, :naive_datetime
-    field :updated_at, :naive_datetime
-  end
-
-  connection node_type: :category
-
-  node object :sub_category do
-    field :internal_id, :integer, do: resolve &resolve_internal_id/2
-    field :code, :string
-    field :description, :string
-    field :pgn, :string
-    field :zobrist_hash, :bigint
-
-    field :category, :category, resolve: assoc(:category)
-
-    # Timestamps
-    field :inserted_at, :naive_datetime
-    field :updated_at, :naive_datetime
-  end
-
-  connection node_type: :sub_category
 
   node object :player do
     field :internal_id, :integer, do: resolve &resolve_internal_id/2
@@ -132,14 +80,14 @@ defmodule CaissaWeb.Schema.Types do
     field :event, :string
     field :site, :string
     field :round, :string
-    # Enum types cannot start with a digit!
+    # Enum types cannot start with a digit! (1-0 1/2-1/2 0-1) are not valid :-(
     field :result, :string
     field :year, :integer
 
     field :black_player, :player, resolve: assoc(:black_player)
     field :white_player, :player, resolve: assoc(:white_player)
 
-    connection field :positions, node_type: :position do
+    field :positions, list_of(:position) do
       arg :fen, :string
       arg :move, :string
       arg :zobrist_hash, :string
@@ -189,43 +137,6 @@ defmodule CaissaWeb.Schema.Types do
     field :fen, :string
     field :move, :string
     field :zobrist_hash, :string
-  end
-
-  # TYPES
-  # ==============================
-
-  enum :sort_order do
-    value :asc
-    value :asc_nulls_last
-    value :asc_nulls_first
-    value :desc
-    value :desc_nulls_last
-    value :desc_nulls_first
-  end
-
-  scalar :bigint do
-    parse fn input ->
-      case input do
-        %Absinthe.Blueprint.Input.String{} = _input ->
-          :error
-        input when is_nil(input) or input == "" ->
-          :error
-        input ->
-          String.to_integer(input)
-      end
-    end
-
-    serialize &to_string(&1)
-  end
-
-  scalar :json do
-    parse fn input ->
-      case Jason.decode(input.value) do
-        {:ok, result} -> result
-        _ -> :error
-      end
-    end
-    serialize &Jason.encode!/1
   end
 
   # PRIVATE

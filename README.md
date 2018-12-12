@@ -141,3 +141,28 @@ query Players($first: Int!) {
     }
   }
 }
+
+## Remove store
+
+{
+  games(first: 10) {
+    edges {
+      node {
+        whitePlayer {
+          lastName
+          firstName
+        }
+        blackPlayer {
+          lastName
+          firstName
+        }
+        positions {
+          moveIndex
+          move 
+          fen
+          zobristHash
+        }
+      }
+    }
+  }
+}

@@ -1,11 +1,15 @@
 defmodule CaissaWeb.Schema do
   use Absinthe.Schema
   use Absinthe.Relay.Schema, :modern
-  alias CaissaWeb.Resolvers.{ChessResolver, EcoResolver}
 
   require Logger
-  import_types CaissaWeb.Schema.Types
 
+  # Include date type
+  import_types Absinthe.Type.Custom
+  import_types __MODULE__.EcoTypes
+  import_types __MODULE__.ChessTypes
+
+  alias CaissaWeb.Resolvers.{ChessResolver, EcoResolver}
   alias ChessDb.Eco.{Category, SubCategory}
   alias ChessDb.Chess.{Player, Game, Position}
 
@@ -27,21 +31,18 @@ defmodule CaissaWeb.Schema do
   end
 
   query do
-    field :store, type: :store do
-      resolve fn _, _ -> {:ok, %{}} end
-    end
+    import_fields :sub_categories_query
+    import_fields :games_query
+    import_fields :game_query
+    import_fields :positions_query
+    import_fields :position_query
 
     node field do
       resolve fn
-        # Eco fields
-
         %{type: :category, id: id}, _ ->
           EcoResolver.find_category(%{id: id}, %{})
         %{type: :sub_category, id: id}, _ ->
           EcoResolver.find_sub_category(%{id: id}, %{})
-
-        # Chess fields
-
         %{type: :player, id: id}, _ ->
           ChessResolver.find_player(%{id: id}, %{})
         %{type: :game, id: id}, _ ->
@@ -53,5 +54,42 @@ defmodule CaissaWeb.Schema do
           nil
       end
     end
+  end
+
+  # TYPES
+  # ==============================
+
+  enum :sort_order do
+    value :asc
+    value :asc_nulls_last
+    value :asc_nulls_first
+    value :desc
+    value :desc_nulls_last
+    value :desc_nulls_first
+  end
+
+  scalar :bigint do
+    parse fn input ->
+      case input do
+        %Absinthe.Blueprint.Input.String{} = _input ->
+          :error
+        input when is_nil(input) or input == "" ->
+          :error
+        input ->
+          String.to_integer(input)
+      end
+    end
+
+    serialize &to_string(&1)
+  end
+
+  scalar :json do
+    parse fn input ->
+      case Jason.decode(input.value) do
+        {:ok, result} -> result
+        _ -> :error
+      end
+    end
+    serialize &Jason.encode!/1
   end
 end

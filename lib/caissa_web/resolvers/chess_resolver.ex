@@ -54,7 +54,9 @@ defmodule CaissaWeb.Resolvers.ChessResolver do
   end
 
   def list_game_positions(_, args, %{source: game}) do
-    Chess.list_game_positions_query(game, args)
-    |> Connection.from_query(&Chess.process_repo/1, args)
+    # Chess.list_game_positions_query(game, args)
+    # |> Connection.from_query(&Chess.process_repo/1, args)
+    positions = Chess.list_game_positions(game, args)
+    {:ok, positions}
   end
 end

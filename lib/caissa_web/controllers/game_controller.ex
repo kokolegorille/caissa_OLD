@@ -11,7 +11,7 @@ defmodule CaissaWeb.GameController do
 
   def index(conn, params) do
     filter = sanitize_params(params)
-    games = Chess.list_games(%{filter: filter})
+    games = Chess.list_games(%{order: :desc, filter: filter})
     render(conn, "index.html", games: games, filter: filter)
   end
 
