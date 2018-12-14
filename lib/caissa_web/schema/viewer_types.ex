@@ -13,6 +13,7 @@ defmodule CaissaWeb.Schema.ViewerTypes do
     connection field :sub_categories, node_type: :sub_category do
       arg :description, :string
       arg :zobrist_hash, :string
+      arg :code, :string
       resolve &EcoResolver.list_sub_categories/3
     end
 
