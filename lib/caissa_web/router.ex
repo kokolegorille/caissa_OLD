@@ -10,6 +10,8 @@ defmodule CaissaWeb.Router do
   end
 
   pipeline :api do
+    # Allow caissa_relay to connect
+    plug CORSPlug, origin: "http://localhost:8080"
     plug :accepts, ["json"]
   end
 
@@ -25,21 +27,20 @@ defmodule CaissaWeb.Router do
     get "/", PageController, :index
   end
 
-  forward "/api",
-    Absinthe.Plug,
-    schema: CaissaWeb.Schema,
-    json_codec: Jason,
-    socket: CaissaWeb.UserSocket
+  scope "/api" do
+    pipe_through :api
 
-  # Note: downloaded from CDN!
-  forward "/graphiql",
-    Absinthe.Plug.GraphiQL,
-    schema: CaissaWeb.Schema,
-    json_codec: Jason,
-    socket: CaissaWeb.UserSocket
+    # Note: downloaded from CDN!
+    forward "/graphiql",
+      Absinthe.Plug.GraphiQL,
+      schema: CaissaWeb.Schema,
+      json_codec: Jason,
+      socket: CaissaWeb.UserSocket
 
-  # Other scopes may use custom stacks.
-  # scope "/api", CaissaWeb do
-  #   pipe_through :api
-  # end
+    forward "/",
+      Absinthe.Plug,
+      schema: CaissaWeb.Schema,
+      json_codec: Jason,
+      socket: CaissaWeb.UserSocket
+  end
 end

@@ -6,6 +6,7 @@ defmodule CaissaWeb.Schema do
 
   # Include date type
   import_types Absinthe.Type.Custom
+  import_types __MODULE__.ViewerTypes
   import_types __MODULE__.EcoTypes
   import_types __MODULE__.ChessTypes
 
@@ -31,11 +32,9 @@ defmodule CaissaWeb.Schema do
   end
 
   query do
-    import_fields :sub_categories_query
-    import_fields :games_query
-    import_fields :game_query
-    import_fields :positions_query
-    import_fields :position_query
+    field :viewer, type: :viewer do
+      resolve fn _, _ -> {:ok, %{}} end
+    end
 
     node field do
       resolve fn

@@ -10,7 +10,7 @@ defmodule Caissa.Application do
     children = [
       # Start the endpoint when the application starts
       CaissaWeb.Endpoint,
-      absinthe_subscriptions(CaissaWeb.Endpoint),
+      # absinthe_subscriptions(CaissaWeb.Endpoint),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -26,11 +26,11 @@ defmodule Caissa.Application do
     :ok
   end
 
-  def absinthe_subscriptions(name) do
-    %{
-      type: :supervisor,
-      id: Absinthe.Subscription,
-      start: {Absinthe.Subscription, :start_link, [name]}
-    }
-  end
+  # def absinthe_subscriptions(name) do
+  #   %{
+  #     type: :supervisor,
+  #     id: Absinthe.Subscription,
+  #     start: {Absinthe.Subscription, :start_link, [name]}
+  #   }
+  # end
 end

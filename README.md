@@ -166,3 +166,26 @@ query Players($first: Int!) {
     }
   }
 }
+
+{
+  game(id: 1) {
+    whitePlayer { lastName }
+    blackPlayer { lastName }
+    positions {moveIndex move fen}
+  }
+}
+
+With fragment
+
+{
+  game(id: 1) {
+    whitePlayer {...PlayerFields}
+    blackPlayer {...PlayerFields}
+    positions {moveIndex move fen}
+  }
+}
+
+fragment PlayerFields on Player {
+  lastName
+  firstName
+}

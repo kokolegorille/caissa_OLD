@@ -8,34 +8,34 @@ defmodule CaissaWeb.Schema.EcoTypes do
   # QUERIES
   # ==============================
 
-  object :categories_query do
-    connection field :categories, node_type: :category do
-      arg :code, :string
-      resolve &EcoResolver.list_categories/3
-    end
-  end
+  # object :categories_query do
+  #   connection field :categories, node_type: :category do
+  #     arg :code, :string
+  #     resolve &EcoResolver.list_categories/3
+  #   end
+  # end
 
-  object :sub_categories_query do
-    connection field :sub_categories, node_type: :sub_category do
-      arg :description, :string
-      arg :zobrist_hash, :string
-      resolve &EcoResolver.list_sub_categories/3
-    end
-  end
+  # object :sub_categories_query do
+  #   connection field :sub_categories, node_type: :sub_category do
+  #     arg :description, :string
+  #     arg :zobrist_hash, :string
+  #     resolve &EcoResolver.list_sub_categories/3
+  #   end
+  # end
 
-  object :category_query do
-    field :category, type: :category do
-      arg :id, non_null(:integer)
-      resolve &EcoResolver.find_category/2
-    end
-  end
+  # object :category_query do
+  #   field :category, type: :category do
+  #     arg :id, non_null(:integer)
+  #     resolve &EcoResolver.find_category/2
+  #   end
+  # end
 
-  object :sub_category_query do
-    field :sub_category, type: :sub_category do
-      arg :id, non_null(:integer)
-      resolve &EcoResolver.find_sub_category/2
-    end
-  end
+  # object :sub_category_query do
+  #   field :sub_category, type: :sub_category do
+  #     arg :id, non_null(:integer)
+  #     resolve &EcoResolver.find_sub_category/2
+  #   end
+  # end
 
   # OBJECTS
   # ==============================

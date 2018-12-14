@@ -8,49 +8,49 @@ defmodule CaissaWeb.Schema.ChessTypes do
   # QUERIES
   # ==============================
 
-  object :players_query do
-    connection field :players, node_type: :player do
-      arg :order, type: :sort_order, default_value: :asc
-      arg :name, :string
-      resolve &ChessResolver.list_players/3
-    end
-  end
+  # object :players_query do
+  #   connection field :players, node_type: :player do
+  #     arg :order, type: :sort_order, default_value: :asc
+  #     arg :name, :string
+  #     resolve &ChessResolver.list_players/3
+  #   end
+  # end
 
-  object :games_query do
-    connection field :games, node_type: :game do
-      arg :order, type: :sort_order, default_value: :asc
-      arg :filter, :game_filter
-      resolve &ChessResolver.list_games/3
-    end
-  end
+  # object :games_query do
+  #   connection field :games, node_type: :game do
+  #     arg :order, type: :sort_order, default_value: :asc
+  #     arg :filter, :game_filter
+  #     resolve &ChessResolver.list_games/3
+  #   end
+  # end
 
-  object :positions_query do
-    connection field :positions, node_type: :position do
-      arg :filter, :position_filter
-      resolve &ChessResolver.list_positions/3
-    end
-  end
+  # object :positions_query do
+  #   connection field :positions, node_type: :position do
+  #     arg :filter, :position_filter
+  #     resolve &ChessResolver.list_positions/3
+  #   end
+  # end
 
-  object :player_query do
-    field :player, type: :player do
-      arg :id, non_null(:integer)
-      resolve &ChessResolver.find_player/2
-    end
-  end
+  # object :player_query do
+  #   field :player, type: :player do
+  #     arg :id, non_null(:integer)
+  #     resolve &ChessResolver.find_player/2
+  #   end
+  # end
 
-  object :game_query do
-    field :game, type: :game do
-      arg :id, non_null(:integer)
-      resolve &ChessResolver.find_game/2
-    end
-  end
+  # object :game_query do
+  #   field :game, type: :game do
+  #     arg :id, non_null(:integer)
+  #     resolve &ChessResolver.find_game/2
+  #   end
+  # end
 
-  object :position_query do
-    field :position, type: :position do
-      arg :id, non_null(:integer)
-      resolve &ChessResolver.find_position/2
-    end
-  end
+  # object :position_query do
+  #   field :position, type: :position do
+  #     arg :id, non_null(:integer)
+  #     resolve &ChessResolver.find_position/2
+  #   end
+  # end
 
   # OBJECTS
   # ==============================
