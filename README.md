@@ -190,6 +190,14 @@ fragment PlayerFields on Player {
   firstName
 }
 
+# Generate schema.json
+
+From the root folder of the graphQl Phoenix server...
+
+$ mix absinthe.schema.json --schema CaissaWeb.Schema --pretty true ../../_REACT/caissa_relay/data/schema.json
+
+Adapt path accordingly.
+
 # Postgresql usage
 
 https://wiki.postgresql.org/wiki/Disk_Usage
